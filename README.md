@@ -1,3 +1,6 @@
+# [Preview](https://dead-tr.github.io/Phaser-top-down-rpg-with-Grid-Movement)
+![Screenshot](./level.webp)
+
 # Installation
 This project is built with [Create React App](https://create-react-app.dev/) and uses [Phaser](https://phaser.io/) for game development. It requires **Node.js v14**.
 
