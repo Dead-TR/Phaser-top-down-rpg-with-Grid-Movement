@@ -110,6 +110,50 @@ Use [Tiled](https://www.mapeditor.org/) to design game levels. Several custom ob
 - [Grid Engine](https://annoraaq.github.io/grid-engine/)
 - [Tile Collision Properties](https://annoraaq.github.io/grid-engine/p/tile-properties/#one-way)
 
+# Managers
+To coordinate logic between the Phaser environment and the React interface, several **managers** are used. These are classes that encapsulate state and behavior for specific systems and provide a unified API for both game and UI components.
+
+## InventoryManager
+The most developed manager is the `InventoryManager`. It handles all logic related to the player's inventory, equipment, item boxes, and Etheria (a form of in-game currency).
+
+The manager is based on an `EventEmitter`, which allows both Phaser and React components to subscribe to inventory changes and react to updates in real-time.
+
+Usage from Phaser might look like this:
+
+  ```ts
+    const distance = getDistanceBetweenPointAndSquare(playerPoint, location);
+    if (distance <= tileWidth) {
+        inventoryManager.openBox(currentBox.items || []);
+    }
+  ```
+
+Core methods include:
+- `openBox(items: Item[])`: opens a container with items.
+- `closeBox()`: closes the container.
+- `equip(item: Item)`: equips an item (if allowed).
+- `castOut(item: Item)`: unequips or drops the item.
+- `moveItem(where: "toPlayer" | "toBox", items: Item[])`: transfers items between the player's inventory and the opened container.
+- `setEtheria(amount: number, type: "add" | "set")`: modifies the Etheria balance.
+- `getFullInventory()`: returns a flat array of all items for display.
+- `listener(...)`: subscribes to inventory events, such as box opening, equipping items, or Etheria updates.
+
+The manager emits several types of events, including:
+- `OPEN_BOX`
+- `EQUIP_ITEM`
+- `OPEN_INVENTORY`
+- `UPDATE_ETHERIAS`
+
+Each of them can be subscribed to using the `listener` method. This allows the UI to stay in sync with game events without directly polling the game state.
+
+## Other Managers
+
+While the `InventoryManager` is currently the most complete, several other managers are partially implemented:
+
+- `PlayerManager`: planned to handle player experience, stats, and leveling.
+- `CombatManager`: intended to manage health, attacks, and combat-related states.
+- `InterfaceManager`: was planned for managing UI-specific global state.
+
+These managers were meant to encapsulate logic in a clean and testable way, enabling better separation of concerns between game logic and UI presentation. While they are not fully realized, they lay the groundwork for further development.
 
 # Project Status
 Active development of this project has been discontinued.

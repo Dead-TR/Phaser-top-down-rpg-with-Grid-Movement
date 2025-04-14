@@ -155,7 +155,7 @@ export class Pointer {
             }
           }
         } else {
-          inventoryManager.openBox(currentBox.items);
+          inventoryManager.openBox(currentBox.items || []);
         }
       }
 
